@@ -10,19 +10,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 
 public class JenkinsTests {
 
 
-
     @Test
-    public void apiTest(){
+    public void apiTest() {
 
-        RequestSpecification spec  = new RequestSpecBuilder().setBaseUri("https://restful-booker.herokuapp.com").build();
+        RequestSpecification spec = new RequestSpecBuilder().setBaseUri("https://restful-booker.herokuapp.com").build();
 
         //Set the base url and path params
-        spec.pathParams("first", "booking", "second",3);
+        spec.pathParams("first", "booking", "second", 3);
 
 
         //Send the Get request and get the response
@@ -35,19 +35,19 @@ public class JenkinsTests {
         Map<String, Object> actualData = response.as(HashMap.class);
         System.out.println(actualData);
 
-        Map<String, Object> bookingdates = (Map)actualData.get("bookingdates");
+        Map<String, Object> bookingdates = (Map) actualData.get("bookingdates");
 
 
-        assertEquals("Jim", actualData.get("firstname"));
-        assertEquals("Jackson", actualData.get("lastname"));
-        assertEquals(964, actualData.get("totalprice"));
-        assertEquals(false, actualData.get("depositpaid"));
+        assertEquals("Sally", actualData.get("firstname"));
+        assertEquals("Wilson", actualData.get("lastname"));
+        assertEquals(353, actualData.get("totalprice"));
+        assertEquals(true, actualData.get("depositpaid"));
 
-        assertEquals("2015-05-13", bookingdates.get("checkin"));
-        assertEquals("2019-10-27", bookingdates.get("checkout"));
+        assertEquals("2021-05-01", bookingdates.get("checkin"));
+        assertEquals("2021-07-13", bookingdates.get("checkout"));
+
+
+        response.then().body("firstname",equalTo("Sally"));
 
     }
-
-
-
 }
